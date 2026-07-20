@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KDL Anti-arnaque</title>
+<meta name="description" content="Analyse locale d'un SMS, d'un mail ou d'un lien suspect.">
+<link rel="icon" href="/icone.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="entete">
+  <img src="/icone.png" alt="" class="logo" width="56" height="56">
+  <div>
+    <h1>KDL Anti-arnaque</h1>
+    <p class="sous-titre">Collez un SMS, un mail ou un lien : je vous dis ce qui cloche, et pourquoi.</p>
+  </div>
+</header>
+
+<main>
+  <section class="saisie">
+    <label for="message" class="etiquette">Le message reçu</label>
+    <textarea id="message" rows="7" placeholder="Exemple : LA POSTE : votre colis est en attente, réglez 1,99 € sous 48h sur http://..."></textarea>
+
+    <div class="actions">
+      <button id="analyser" class="bouton principal">Analyser</button>
+      <label for="fichier-qr" class="bouton secondaire">Analyser un QR code</label>
+      <input type="file" id="fichier-qr" accept="image/*" hidden>
+      <button id="effacer" class="bouton discret">Effacer</button>
+    </div>
+    <p id="etat-qr" class="etat" hidden></p>
+    <p class="confidentialite">Tout est analysé sur cet ordinateur. Aucun message n'est envoyé sur Internet.</p>
+  </section>
+
+  <section id="resultat" hidden aria-live="polite">
+    <div id="verdict" class="verdict">
+      <div class="verdict-texte">
+        <p class="verdict-libelle" id="verdict-libelle"></p>
+        <p class="verdict-detail" id="verdict-detail"></p>
+      </div>
+      <div class="jauge" role="img" aria-label="niveau de risque">
+        <span id="verdict-score">0</span><small>/100</small>
+      </div>
+    </div>
+
+    <div id="bloc-liens" class="carte" hidden>
+      <h2>Où mène vraiment ce lien</h2>
+      <ul id="liens" class="liens"></ul>
+    </div>
+
+    <div id="bloc-signaux" class="carte" hidden>
+      <h2>Ce que j'ai relevé</h2>
+      <ul id="signaux" class="signaux"></ul>
+    </div>
+
+    <div id="bloc-conseils" class="carte" hidden>
+      <h2>Que faire maintenant</h2>
+      <ul id="conseils" class="conseils"></ul>
+    </div>
+  </section>
+
+  <section class="carte historique">
+    <h2>
+      Analyses précédentes
+      <button id="vider" class="bouton discret petit">Tout effacer</button>
+    </h2>
+    <ul id="historique" class="hist"></ul>
+  </section>
+</main>
+
+<footer>
+  <p>KDL TECH — outil local, gratuit. Un doute persiste ? 33700 pour les SMS, cybermalveillance.gouv.fr pour le reste.</p>
+</footer>
+
+<script src="/vendor/jsQR.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

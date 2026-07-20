@@ -1,0 +1,24 @@
+{
+  "name": "kdl-anti-arnaque",
+  "version": "1.0.0",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/",
+    "local": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "Analyse locale d'un SMS, d'un mail ou d'un lien suspect : verdict explique, conseils, scan de QR code.",
+  "dependencies": {
+    "better-sqlite3": "^12.11.1",
+    "express": "^5.2.1",
+    "jsqr": "^1.4.0"
+  },
+  "private": true
+}
