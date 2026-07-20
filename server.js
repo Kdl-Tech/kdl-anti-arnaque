@@ -17,7 +17,10 @@ const HOTE = process.env.HOTE || "127.0.0.1";
 const HISTORIQUE = process.env.HISTORIQUE !== "0";
 
 const app = express();
-const base = ouvrirBase(path.join(__dirname, "data", "analyses.db"));
+// Empaquete en executable (pkg), __dirname pointe dans un snapshot en lecture
+// seule : les donnees doivent alors etre ecrites a cote de l'executable.
+const RACINE = process.pkg ? path.dirname(process.execPath) : __dirname;
+const base = ouvrirBase(path.join(RACINE, "data", "analyses.db"));
 
 app.use(express.json({ limit: "256kb" }));
 app.disable("x-powered-by");

@@ -70,3 +70,14 @@ les **segments** de l'adresse, avec une tolérance uniquement pour les noms coll
 ---
 
 KDL TECH — outil local et gratuit.
+
+## Exécutable autonome (Windows & Linux)
+
+Le code ne dépend d'aucun module natif : il s'empaquette en un seul fichier
+exécutable, sans Node à installer sur la machine cible.
+
+```bash
+npm run build      # génère dist/<app>-linux et dist/<app>-win.exe
+```
+
+Les données sont écrites dans un dossier `data/` **à côté de l'exécutable**.
