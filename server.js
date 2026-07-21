@@ -29,7 +29,7 @@ app.use((_req, res, next) => {
   res.set("Referrer-Policy", "no-referrer");
   res.set(
     "Content-Security-Policy",
-    "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; base-uri 'none'; form-action 'none'"
+    "default-src 'self'; connect-src 'self' https://kdl-tech.fr; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; base-uri 'none'; form-action 'none'"
   );
   next();
 });

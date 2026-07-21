@@ -70,9 +70,33 @@
 
 <footer>
   <p>KDL TECH — outil local, gratuit. Un doute persiste ? 33700 pour les SMS, cybermalveillance.gouv.fr pour le reste.</p>
+  <p>© 2026 KDL TECH. Tous droits réservés.</p>
 </footer>
 
 <script src="/vendor/jsQR.js"></script>
 <script src="/app.js"></script>
+
+
+
+<!-- KDL Update Widget (opt-in, aucune donnée envoyée par défaut) -->
+<style>
+#kdl-upd-btn{position:fixed;right:14px;bottom:14px;z-index:9998;background:#0b2b3a;color:#eaf6fb;border:1px solid #17506a;border-radius:20px;padding:8px 14px;font-size:.8rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+#kdl-upd-btn:hover{background:#123c50}
+#kdl-upd-panel{position:fixed;right:14px;bottom:56px;z-index:9998;background:#0e1c26;color:#dbe9f2;border:1px solid #17506a;border-radius:12px;padding:14px 16px;font-size:.82rem;max-width:280px;box-shadow:0 6px 24px rgba(0,0,0,.4)}
+#kdl-upd-panel a{color:#38bdf8;text-decoration:none;font-weight:600;display:inline-block;margin-top:8px}
+#kdl-upd-panel label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;line-height:1.35}
+#kdl-upd-cur{display:block;color:#7f93a4;margin-top:10px;font-size:.75rem}
+#kdl-upd-bar{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#0b3a2b;color:#eafff5;padding:10px 14px;text-align:center;font-size:.85rem}
+#kdl-upd-bar a{color:#5ef2b3;font-weight:700;margin-left:10px;text-decoration:none}
+</style>
+<div id="kdl-upd-bar" hidden><span id="kdl-upd-txt"></span><a id="kdl-upd-dl" href="https://kdl-tech.fr/updates" target="_blank" rel="noopener">Télécharger ⤓</a></div>
+<button id="kdl-upd-btn" type="button">⟳ Mises à jour</button>
+<div id="kdl-upd-panel" hidden>
+  <label><input type="checkbox" id="kdl-upd-auto"> Activer les mises à jour automatiques (vérifie la dernière version au démarrage)</label>
+  <a href="https://kdl-tech.fr/updates" target="_blank" rel="noopener">Aller sur kdl-tech.fr/updates →</a>
+  <span id="kdl-upd-cur"></span>
+</div>
+<script src="/update-widget.js" data-app="kdl-anti-arnaque" data-ver="1.0.0"></script>
+
 </body>
 </html>
