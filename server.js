@@ -14,6 +14,19 @@ const { ouvrirBase } = require("./lib/db");
 
 const PORT = Number(process.env.PORT || 4210);
 const HOTE = process.env.HOTE || "127.0.0.1";
+// KDL — ouvre l'app dans le navigateur par defaut (Win/mac/Linux), sans bloquer le serveur.
+function ouvrirNavigateur(url) {
+  if (process.env.KDL_NO_BROWSER === "1") return;
+  try {
+    const { spawn } = require("child_process");
+    const p = process.platform;
+    const [cmd, args] = p === "win32" ? ["cmd", ["/c", "start", "", url]]
+      : p === "darwin" ? ["open", [url]] : ["xdg-open", [url]];
+    const c = spawn(cmd, args, { detached: true, stdio: "ignore" });
+    c.on("error", () => {}); c.unref();
+  } catch (_) {}
+}
+
 const HISTORIQUE = process.env.HISTORIQUE !== "0";
 
 const app = express();
@@ -67,5 +80,6 @@ app.use(express.static(path.join(__dirname, "public"), { maxAge: "1h" }));
 
 app.listen(PORT, HOTE, () => {
   console.log(`KDL Anti-arnaque -> http://${HOTE}:${PORT}`);
+  ouvrirNavigateur(`http://localhost:${PORT}`);
   if (!HISTORIQUE) console.log("Historique desactive (HISTORIQUE=0).");
 });
