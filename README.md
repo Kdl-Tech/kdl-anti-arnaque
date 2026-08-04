@@ -1,4 +1,76 @@
-# KDL Anti-arnaque
+<div align="center">
+
+# 🛡️ KDL Anti-arnaque
+
+**Paste a suspicious SMS, email or QR code — get a verdict, and the reason behind it. 100% offline, no API key, no account.**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-1F5278.svg)](LICENSE)
+[![Runs offline](https://img.shields.io/badge/Network-zero%20requests-22c55e.svg)](#privacy)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933.svg)]()
+[![Tests](https://img.shields.io/badge/tests-17%20passing-brightgreen.svg)](#tests)
+
+*🇫🇷 [Documentation française complète plus bas](#-documentation-française)*
+
+</div>
+
+---
+
+## What it does
+
+Scam texts work because the victim cannot tell a real link from a fake one in the
+three seconds they spend looking at it. This tool is built to be **shown to
+someone panicking in front of their phone** — not to a security audience.
+
+Paste the message. It returns a verdict, and more importantly **explains every
+signal it found in plain language**, so the person recognizes the next attempt on
+their own.
+
+### Detection
+
+- **Message analysis** — links, pretexts, time pressure, banking-data requests,
+  untraceable payment methods, fake advisors, fake bank details
+- **Link truth** — shows the domain actually visited, catches impersonated brands
+  (`laposte.fr.suivi-colis.top`), typographic lookalikes (`arneli.fr`), the `@`
+  trick, punycode, and disposable TLDs
+- **QR code scanning** — decoded in the browser; the image never leaves the device
+- **Local history** with one-click wipe
+
+## Privacy
+
+Everything runs **on the machine**: no network requests, no API key, no third
+party. Analyzed messages are private texts and emails, so history keeps only a
+280-character excerpt in a SQLite database with `chmod 600`, and the server binds
+to `127.0.0.1` only.
+
+Run with no history at all: `HISTORIQUE=0 npm start`
+
+## Quick start
+
+```bash
+npm install
+npm start          # http://127.0.0.1:4210
+npm test           # 17 engine tests
+```
+
+Environment: `PORT` (4210), `HOTE` (127.0.0.1), `HISTORIQUE` (0 to disable).
+
+## Why rule-based, not AI
+
+The engine is a **deterministic rule set** — no model, no inference, no data
+leaving the machine. It means the verdict is auditable (you can read exactly why
+a message was flagged), it runs on a ten-year-old laptop, and it costs nothing to
+operate. For scam detection, explainability matters more than sophistication.
+
+## Contributing
+
+New scam patterns are the most useful contribution — open an issue with the
+redacted message and the reason it fooled a human. ⭐ helps others find it.
+
+---
+
+<a id="-documentation-française"></a>
+
+## 🇫🇷 Documentation française
 
 Vous recevez un SMS, un mail ou un QR code douteux ? Collez-le ici : l'app dit
 s'il s'agit d'une arnaque, **explique pourquoi**, et indique quoi faire.
@@ -81,3 +153,19 @@ npm run build      # génère dist/<app>-linux et dist/<app>-win.exe
 ```
 
 Les données sont écrites dans un dossier `data/` **à côté de l'exécutable**.
+
+---
+
+<div align="center">
+
+**Other tools by [KDL TECH](https://kdl-tech.fr)** — an independent computer repair
+and software workshop in Guadeloupe 🇬🇵
+
+[Anti-arnaque](https://github.com/Kdl-Tech/kdl-anti-arnaque) ·
+[Privacy Dev Browser](https://github.com/Kdl-Tech/kdl-privacy-dev-browser) ·
+[Prompt Studio](https://github.com/Kdl-Tech/kdl-prompt-studio) ·
+[DNS Shield](https://github.com/Kdl-Tech/kdl-dns-shield) ·
+[Security Free](https://github.com/Kdl-Tech/kdl-security-free) ·
+[MAIA Conky](https://github.com/Kdl-Tech/maia-conky)
+
+</div>
