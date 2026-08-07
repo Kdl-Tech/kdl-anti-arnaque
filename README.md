@@ -1,171 +1,75 @@
-<div align="center">
+**Français** · [English](README.en.md)
 
-# 🛡️ KDL Anti-arnaque
+# KDL Anti-arnaque
 
-**Paste a suspicious SMS, email or QR code — get a verdict, and the reason behind it. 100% offline, no API key, no account.**
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-1F5278.svg)](LICENSE)
-[![Runs offline](https://img.shields.io/badge/Network-zero%20requests-22c55e.svg)](#privacy)
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933.svg)]()
-[![Tests](https://img.shields.io/badge/tests-17%20passing-brightgreen.svg)](#tests)
-
-*🇫🇷 [Documentation française complète plus bas](#-documentation-française)*
-
-</div>
-
----
-
-## What it does
-
-Scam texts work because the victim cannot tell a real link from a fake one in the
-three seconds they spend looking at it. This tool is built to be **shown to
-someone panicking in front of their phone** — not to a security audience.
-
-Paste the message. It returns a verdict, and more importantly **explains every
-signal it found in plain language**, so the person recognizes the next attempt on
-their own.
-
-### Detection
-
-- **Message analysis** — links, pretexts, time pressure, banking-data requests,
-  untraceable payment methods, fake advisors, fake bank details
-- **Link truth** — shows the domain actually visited, catches impersonated brands
-  (`laposte.fr.suivi-colis.top`), typographic lookalikes (`arneli.fr`), the `@`
-  trick, punycode, and disposable TLDs
-- **QR code scanning** — decoded in the browser; the image never leaves the device
-- **Local history** with one-click wipe
-
-## Privacy
-
-Everything runs **on the machine**: no network requests, no API key, no third
-party. Analyzed messages are private texts and emails, so history keeps only a
-280-character excerpt in a SQLite database with `chmod 600`, and the server binds
-to `127.0.0.1` only.
-
-Run with no history at all: `HISTORIQUE=0 npm start`
-
-## Quick start
+Collez un SMS, un mail ou un lien suspect. L'outil vous dit ce qui cloche —
+**et pourquoi**. Tout se passe sur votre ordinateur : aucun message ne part sur
+Internet.
 
 ```bash
-npm install
-npm start          # http://127.0.0.1:4210
-npm test           # 17 engine tests
+npm install && npm start        # puis http://127.0.0.1:4210
 ```
 
-Environment: `PORT` (4210), `HOTE` (127.0.0.1), `HISTORIQUE` (0 to disable).
-
-## Why rule-based, not AI
-
-The engine is a **deterministic rule set** — no model, no inference, no data
-leaving the machine. It means the verdict is auditable (you can read exactly why
-a message was flagged), it runs on a ten-year-old laptop, and it costs nothing to
-operate. For scam detection, explainability matters more than sophistication.
-
-## Contributing
-
-New scam patterns are the most useful contribution — open an issue with the
-redacted message and the reason it fooled a human. ⭐ helps others find it.
+![Interface de KDL Anti-arnaque : une zone pour coller le message reçu, les boutons Analyser et Analyser un QR code, et l'historique des analyses précédentes](docs/interface.png)
 
 ---
 
-<a id="-documentation-française"></a>
+## Ce qu'il répond vraiment
 
-## 🇫🇷 Documentation française
+Voici la sortie réelle pour un SMS d'hameçonnage classique :
 
-Vous recevez un SMS, un mail ou un QR code douteux ? Collez-le ici : l'app dit
-s'il s'agit d'une arnaque, **explique pourquoi**, et indique quoi faire.
+> **Très probablement une arnaque** — score 100/100
+>
+> **« laposte » apparaît dans l'adresse, mais le site n'est pas le sien.**
+> Le vrai site est `laposte.fr`. Ici, le domaine réellement visité est
+> `laposte-colis.tk`. Placer un nom connu à gauche dans l'adresse est le procédé
+> d'hameçonnage le plus courant : seule la partie juste avant la première barre
+> oblique compte.
 
-Pensée pour être montrée à quelqu'un qui panique devant son téléphone — pas pour
-un public technique. Chaque signal relevé est expliqué en français clair, pour
-que la personne reconnaisse la prochaine tentative toute seule.
+C'est le point de tout l'outil : **il ne se contente pas d'un verdict, il
+enseigne la règle**. La personne qui lit cette explication saura reconnaître la
+prochaine arnaque toute seule, sans l'outil.
 
-## Ce qu'elle sait faire
+## Ce qu'il regarde
 
-- **Analyse d'un message** : liens, prétextes, pression au temps, demandes de
-  données bancaires, moyens de paiement intraçables, faux conseiller, faux RIB.
-- **Vérité sur les liens** : affiche le domaine réellement visité, détecte les
-  marques usurpées (`laposte.fr.suivi-colis.top`), les sosies typographiques
-  (`arneli.fr`), le piège du `@`, le punycode, les extensions jetables.
-- **Scan de QR code** : décodé dans le navigateur, l'image ne sort pas de
-  l'appareil.
-- **Historique local** des analyses, avec effacement en un clic.
+| | |
+|---|---|
+| **Marques usurpées** | un nom connu placé à gauche du vrai domaine |
+| **Domaines suspects** | extensions à risque, sous-domaines trompeurs, adresses IP nues |
+| **Procédés de pression** | urgence, menace de frais, délai court |
+| **Codes QR** | décodés localement, puis l'adresse est analysée comme un lien |
+| **Historique** | vos analyses précédentes restent sur la machine |
 
-## Confidentialité
+Chaque signal a un poids et une gravité, et le verdict explique lesquels ont
+pesé. Rien n'est une boîte noire.
 
-Tout est calculé **sur la machine** : aucune requête réseau, aucune clé d'API,
-aucun service tiers. Les messages analysés sont des SMS et des mails privés :
-l'historique n'en conserve qu'un extrait de 280 caractères, dans une base SQLite
-en `chmod 600`. Le serveur écoute sur `127.0.0.1` uniquement.
+## Pourquoi c'est hors ligne
 
-Lancer sans historique du tout : `HISTORIQUE=0 npm start`.
+Un outil qui analyse vos SMS et vos mails **ne doit pas les envoyer ailleurs**.
+Ce serait le comble : vous confieriez à un tiers exactement ce que vous cherchez
+à protéger.
 
-## Utilisation
+Aucune requête réseau, aucune clé d'API, aucun compte. Vous pouvez couper le
+Wi-Fi et l'outil fonctionne à l'identique.
 
-```bash
-npm install
-npm start          # http://127.0.0.1:4210
-npm test           # 17 tests du moteur d'analyse
-```
+## Ce qu'il ne fait pas
 
-Variables : `PORT` (4210), `HOTE` (127.0.0.1), `HISTORIQUE` (0 pour désactiver).
+Il ne remplace pas votre jugement. Un message peut être frauduleux sans porter
+aucun des signaux connus, et un message légitime peut en déclencher un.
 
-## Comment marche l'analyse
+Il ne vérifie pas si un site est en ligne, ne visite aucun lien, et ne signale
+rien aux autorités. **En cas de doute persistant : 33700 pour les SMS,
+cybermalveillance.gouv.fr pour le reste.**
 
-Aucun modèle d'IA n'intervient. Le moteur (`lib/analyse.js`) relève des signaux
-**vérifiables**, chacun avec un poids ; leur somme donne un score sur 100 et un
-niveau (sûr / douteux / dangereux). Un seul signal critique — une marque usurpée,
-une demande de code bancaire — suffit à classer le message comme dangereux.
+## Prérequis
 
-Ce choix est délibéré : un verdict doit être explicable et reproductible. On peut
-lire `lib/analyse.js` et comprendre exactement pourquoi un message a été signalé.
+Node.js 18 ou plus. Aucune dépendance réseau.
 
-`lib/marques.js` liste les marques les plus usurpées en France et leurs domaines
-officiels. C'est le fichier à enrichir en priorité quand une nouvelle campagne
-apparaît.
+## Licence
 
-### Le piège des faux positifs
-
-Chercher le nom d'une marque en simple sous-chaîne ferait sonner `cafetiere.com`
-(« caf ») ou `freelance-design.com` (« free »). La comparaison se fait donc sur
-les **segments** de l'adresse, avec une tolérance uniquement pour les noms collés
-à un mot typique d'hameçonnage (`amelicompte.top`). Les tests couvrent ces cas.
-
-## Limites honnêtes
-
-- L'app juge la **forme** du message, pas le fond : un vrai message peut être
-  signalé, une arnaque bien écrite sans lien peut passer. Le score n'est pas une
-  garantie, c'est une aide à la décision.
-- Aucune vérification en ligne du domaine (âge, réputation) : c'est le prix du
-  100 % local et gratuit.
-- La liste des marques est franco-française et demande à être entretenue.
+MIT.
 
 ---
 
-KDL TECH — outil local et gratuit.
-
-## Exécutable autonome (Windows & Linux)
-
-Le code ne dépend d'aucun module natif : il s'empaquette en un seul fichier
-exécutable, sans Node à installer sur la machine cible.
-
-```bash
-npm run build      # génère dist/<app>-linux et dist/<app>-win.exe
-```
-
-Les données sont écrites dans un dossier `data/` **à côté de l'exécutable**.
-
----
-
-<div align="center">
-
-**Other tools by [KDL TECH](https://kdl-tech.fr)** — an independent computer repair
-and software workshop in Guadeloupe 🇬🇵
-
-[Anti-arnaque](https://github.com/Kdl-Tech/kdl-anti-arnaque) ·
-[Privacy Dev Browser](https://github.com/Kdl-Tech/kdl-privacy-dev-browser) ·
-[Prompt Studio](https://github.com/Kdl-Tech/kdl-prompt-studio) ·
-[DNS Shield](https://github.com/Kdl-Tech/kdl-dns-shield) ·
-[Security Free](https://github.com/Kdl-Tech/kdl-security-free) ·
-[MAIA Conky](https://github.com/Kdl-Tech/maia-conky)
-
-</div>
+Par [**KDL TECH**](https://kdl-tech.fr) — maintenance informatique,
+développement, sécurité. Guadeloupe et à distance.
