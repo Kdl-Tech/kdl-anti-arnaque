@@ -78,7 +78,7 @@ test("caracteres deguises (punycode)", () => {
 // ---------------------------------------------------------------------------
 
 test("message anodin entre amis", () => {
-  const r = analyser("Salut Karim, on se voit demain a 15h pour le devis ? A tout.");
+  const r = analyser("Salut, on se voit demain a 15h pour le devis ? A tout.");
   assert.equal(r.niveau, "sur");
   assert.equal(r.signaux.length, 0);
 });
