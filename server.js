@@ -35,8 +35,17 @@ const app = express();
 const RACINE = process.pkg ? path.dirname(process.execPath) : __dirname;
 const base = ouvrirBase(path.join(RACINE, "data", "analyses.db"));
 
-app.use(express.json({ limit: "256kb" }));
 app.disable("x-powered-by");
+// Seuls localhost / 127.0.0.1 sont acceptés comme Host : un site piégé qui fait
+// pointer son propre nom vers 127.0.0.1 (DNS rebinding) ne peut pas lire
+// l'historique (extraits de SMS privés) ni l'effacer.
+const HOTES_LOCAUX = new Set(["localhost", "127.0.0.1", "[::1]"]);
+app.use((req, res, next) => {
+  const hote = String(req.headers.host || "").toLowerCase().replace(/:\d+$/, "");
+  if (HOTES_LOCAUX.has(hote) || (HOTE !== "127.0.0.1" && hote === HOTE)) return next();
+  res.status(421).json({ erreur: "Hôte non autorisé." });
+});
+app.use(express.json({ limit: "256kb" }));
 app.use((_req, res, next) => {
   res.set("X-Content-Type-Options", "nosniff");
   res.set("Referrer-Policy", "no-referrer");
@@ -61,6 +70,40 @@ app.post("/api/analyse", (req, res) => {
     }
   }
   res.json(resultat);
+});
+
+// ---------------------------------------------------------------------------
+// Intégration locale v1 (contrat : docs/INTEGRATION.md) — pour KDL Toolbox.
+// Réservée aux programmes locaux : toute requête portant un en-tête Origin
+// (donc venant d'une page web) est refusée. Rien n'est enregistré : le message
+// analysé n'entre pas dans l'historique et n'est jamais renvoyé.
+// ---------------------------------------------------------------------------
+const CONTRAT = 1;
+const sansNavigateur = (req, res, next) => (req.headers.origin
+  ? res.status(403).json({ erreur: "Intégration réservée aux applications locales." })
+  : next());
+
+app.get("/api/integration/v1/etat", sansNavigateur, (_req, res) => {
+  res.json({ application: "kdl-anti-arnaque", version: require("./package.json").version, contrat: CONTRAT });
+});
+
+app.post("/api/integration/v1/analyse", sansNavigateur, (req, res) => {
+  const texte = String(req.body && typeof req.body.texte === "string" ? req.body.texte : "").trim();
+  if (!texte) return res.status(400).json({ erreur: "Message vide." });
+  if (texte.length > 20000) return res.status(413).json({ erreur: "Message trop long." });
+  const r = analyser(texte);
+  res.json({
+    contrat: CONTRAT,
+    niveau: r.niveau,
+    libelle: r.libelle,
+    score: r.score,
+    marqueImitee: r.marqueImitee,
+    signaux: r.signaux.map((s) => ({ code: s.code, gravite: s.gravite, titre: s.titre })),
+    conseils: r.conseils,
+    domaines: r.liens.map((l) => l.domaine).filter(Boolean),
+    analyseLe: r.analyseLe,
+    avertissement: "Analyse automatique par signaux : une indication, pas une certitude.",
+  });
 });
 
 app.get("/api/historique", (_req, res) => {
