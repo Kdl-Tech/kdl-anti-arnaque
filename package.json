@@ -10,7 +10,8 @@
     "start": "node server.js",
     "test": "node --test \"test/*.test.js\"",
     "local": "node server.js",
-    "build": "pkg ."
+    "construire:linux": "node packaging/construire.js linux",
+    "construire:windows": "node packaging/construire.js windows"
   },
   "keywords": [],
   "author": "",
@@ -20,16 +21,5 @@
     "express": "^5.2.1",
     "jsqr": "^1.4.0"
   },
-  "private": true,
-  "bin": "server.js",
-  "pkg": {
-    "assets": [
-      "public/**/*"
-    ],
-    "targets": [
-      "node20-linux-x64",
-      "node20-win-x64"
-    ],
-    "outputPath": "dist"
-  }
+  "private": true
 }

@@ -33,7 +33,12 @@ const app = express();
 // Empaquete en executable (pkg), __dirname pointe dans un snapshot en lecture
 // seule : les donnees doivent alors etre ecrites a cote de l'executable.
 const RACINE = process.pkg ? path.dirname(process.execPath) : __dirname;
-const base = ouvrirBase(path.join(RACINE, "data", "analyses.db"));
+// Version installée : le lanceur fournit un dossier de données propre à
+// l'utilisateur, séparé du programme (une désinstallation ne l'efface pas).
+const DONNEES = process.env.KDL_ANTI_ARNAQUE_DATA ? path.resolve(process.env.KDL_ANTI_ARNAQUE_DATA) : path.join(RACINE, "data");
+const base = ouvrirBase(path.join(DONNEES, "analyses.db"));
+// Bouton « Fermer » : seulement dans la version installée (lanceur sans console).
+const FERMABLE = process.env.KDL_ANTI_ARNAQUE_FERMABLE === "1";
 
 app.disable("x-powered-by");
 // Seuls localhost / 127.0.0.1 sont acceptés comme Host : un site piégé qui fait
@@ -116,7 +121,21 @@ app.delete("/api/historique", (_req, res) => {
 });
 
 app.get("/api/sante", (_req, res) => {
-  res.json({ app: "kdl-anti-arnaque", version: require("./package.json").version, historique: HISTORIQUE });
+  res.json({ app: "kdl-anti-arnaque", version: require("./package.json").version, historique: HISTORIQUE, fermable: FERMABLE });
+});
+
+// Fermeture depuis l'interface (version installée). L'en-tête X-KDL-Fermer impose
+// une requête « non simple » : un autre site ne peut pas l'envoyer sans
+// autorisation CORS, que ce serveur ne donne jamais. Origin exigée et locale.
+app.post("/api/arreter", (req, res) => {
+  const origine = String(req.headers.origin || "");
+  let locale = false;
+  try { const u = new URL(origine); locale = u.protocol === "http:" && HOTES_LOCAUX.has(u.hostname) && Number(u.port) === PORT; } catch (_) { locale = false; }
+  if (!FERMABLE) return res.status(404).json({ erreur: "Route inconnue." });
+  if (!locale || req.headers["x-kdl-fermer"] !== "1") return res.status(403).json({ erreur: "Requête refusée." });
+  res.json({ ok: true });
+  console.log("Arrêt demandé depuis l'interface.");
+  setTimeout(() => process.exit(0), 150);
 });
 
 app.use(express.static(path.join(__dirname, "public"), { maxAge: "1h" }));

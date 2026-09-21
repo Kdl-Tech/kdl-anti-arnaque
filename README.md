@@ -61,9 +61,36 @@ Il ne vérifie pas si un site est en ligne, ne visite aucun lien, et ne signale
 rien aux autorités. **En cas de doute persistant : 33700 pour les SMS,
 cybermalveillance.gouv.fr pour le reste.**
 
-## Prérequis
+## Installer (version 1.1)
 
-Node.js 18 ou plus. Aucune dépendance réseau.
+Téléchargements : [releases GitHub](https://github.com/Kdl-Tech/kdl-anti-arnaque/releases).
+
+| Système | Fichier | État |
+|---|---|---|
+| Debian / Ubuntu / Linux Mint (64 bits) | `kdl-anti-arnaque_1.1.0_amd64.deb` | testé (Linux Mint 22) |
+| Windows 10 / 11 (64 bits) | `KDL-Anti-arnaque-Setup-1.1.0.exe` | testé (Windows 11, Smart App Control actif) |
+| macOS | depuis les sources (`npm install && npm start`) | pas de paquet 1.1 |
+
+- **Linux** : `sudo apt install ./kdl-anti-arnaque_1.1.0_amd64.deb`, puis *KDL Anti-arnaque*
+  dans le menu. Désinstaller : `sudo apt remove kdl-anti-arnaque`.
+- **Windows** : installation pour l'utilisateur courant, sans droits administrateur ; menu
+  Démarrer, entrée dans Paramètres → Applications. L'installateur **n'est pas signé** :
+  Windows peut afficher « Windows a protégé votre ordinateur — éditeur inconnu »
+  (« Informations complémentaires » → « Exécuter quand même »).
+- L'application s'ouvre dans le navigateur, sans fenêtre. Pour la fermer : bouton
+  **Fermer KDL Anti-arnaque** en bas de page.
+- Historique et journal : `~/.local/share/KDL/Anti-arnaque` ou
+  `%LOCALAPPDATA%\KDL\Anti-arnaque`. **La désinstallation ne les supprime pas.**
+- Le programme embarque le runtime Node.js officiel, non modifié.
+
+## Intégration avec KDL Toolbox
+
+API locale documentée dans [docs/INTEGRATION.md](docs/INTEGRATION.md) : analyse d'un
+message sans enregistrement, réservée aux programmes du poste (pages web refusées).
+
+## Depuis les sources
+
+Node.js 18 ou plus. Aucune dépendance réseau. `npm test` lance les tests.
 
 ## Licence
 

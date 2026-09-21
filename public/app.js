@@ -187,3 +187,17 @@ $("vider").addEventListener("click", async () => {
 });
 
 chargerHistorique();
+
+// Version installée (sans fenêtre) : un bouton pour fermer l'application.
+fetch("/api/sante").then((r) => r.json()).then((s) => {
+  if (!s.fermable) return;
+  $("zone-fermer").hidden = false;
+  $("fermer-app").addEventListener("click", async () => {
+    if (!confirm("Fermer KDL Anti-arnaque ?")) return;
+    try {
+      const rep = await fetch("/api/arreter", { method: "POST", headers: { "X-KDL-Fermer": "1" } });
+      if (!rep.ok) throw new Error(String(rep.status));
+      document.body.textContent = "KDL Anti-arnaque est fermé. Vous pouvez fermer cet onglet.";
+    } catch (_) { alert("Fermeture impossible."); }
+  });
+}).catch(() => {});
