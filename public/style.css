@@ -1,16 +1,12 @@
-/* KDL Anti-arnaque — identite KDL TECH : navy profond, cyan, verdict en couleur. */
+/* KDL Anti-arnaque — charte KDL TECH « Lagon » clair / sombre (jetons kdl-theme.css). */
 :root {
-  --fond: #060d1c;
-  --fond-carte: #0d1930;
-  --fond-carte-haut: #142240;
-  --bord: #1e3157;
-  --texte: #e6eefb;
-  --texte-doux: #9db0cf;
-  --cyan: #39c6f2;
-  --cyan-clair: #7ff1ff;
-  --vert: #4cc38a;
-  --ambre: #e0a03a;
-  --rouge: #f0687a;
+  --fond: var(--ecume);
+  --fond-carte: var(--surf);
+  --fond-carte-haut: var(--surf);
+  --bord: var(--ligne);
+  --texte-doux: var(--gris);
+  --cyan: var(--lagon);
+  --cyan-clair: var(--lagon-vif, var(--lagon));
   --rayon: 16px;
 }
 
@@ -20,10 +16,10 @@ body {
   margin: 0;
   padding: 0 20px 60px;
   background:
-    radial-gradient(900px 500px at 50% -180px, #123a6b 0%, transparent 70%),
+    radial-gradient(900px 500px at 50% -180px, color-mix(in srgb, var(--lagon) 12%, transparent), transparent 70%),
     var(--fond);
   color: var(--texte);
-  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font: 400 16px/1.6 var(--corps);
 }
 
 .entete {
@@ -35,8 +31,9 @@ body {
   padding: 36px 0 26px;
 }
 .logo { border-radius: 14px; flex: none; }
-h1 { margin: 0; font-size: 1.6rem; letter-spacing: -0.01em; }
+h1 { margin: 0; font: 700 1.6rem/1.15 var(--titre); color: var(--encre); letter-spacing: -0.01em; }
 .sous-titre { margin: 4px 0 0; color: var(--texte-doux); }
+.entete [data-kdl-theme-btn], .entete .kdl-theme-btn { margin-left: auto; flex: none; }
 
 /* minmax(0, 1fr) est indispensable : les elements d'une grille ont min-width:auto,
    si bien qu'un contenu insecable (une longue adresse, une ligne d'historique en
@@ -75,8 +72,8 @@ textarea:focus { outline: 2px solid var(--cyan); outline-offset: 1px; }
   font-weight: 600;
   cursor: pointer;
 }
-.principal { background: linear-gradient(180deg, var(--cyan-clair), var(--cyan)); color: #04121f; }
-.principal:hover { filter: brightness(1.08); }
+.principal { background: var(--lagon-fond); color: #fff; }
+.principal:hover { background: var(--lagon-fond-h); }
 .secondaire { background: transparent; border-color: var(--bord); color: var(--texte); }
 .secondaire:hover { border-color: var(--cyan); }
 .discret { background: none; border: none; color: var(--texte-doux); }
@@ -94,6 +91,8 @@ textarea:focus { outline: 2px solid var(--cyan); outline-offset: 1px; }
 }
 .carte h2 {
   margin: 0 0 14px;
+  font-family: var(--titre);
+  color: var(--encre);
   font-size: 1.05rem;
   display: flex;
   justify-content: space-between;
@@ -111,14 +110,14 @@ textarea:focus { outline: 2px solid var(--cyan); outline-offset: 1px; }
   background: var(--fond-carte-haut);
   border-left: 7px solid var(--texte-doux);
 }
-.verdict.vert   { border-left-color: var(--vert);   background: linear-gradient(90deg, rgba(76,195,138,.14), var(--fond-carte-haut) 55%); }
-.verdict.ambre  { border-left-color: var(--ambre);  background: linear-gradient(90deg, rgba(224,160,58,.16), var(--fond-carte-haut) 55%); }
-.verdict.rouge  { border-left-color: var(--rouge);  background: linear-gradient(90deg, rgba(240,104,122,.18), var(--fond-carte-haut) 55%); }
+.verdict.vert   { border-left-color: var(--vert);   background: linear-gradient(90deg, color-mix(in srgb, var(--vert) 16%, transparent), var(--fond-carte-haut) 55%); }
+.verdict.ambre  { border-left-color: var(--ambre);  background: linear-gradient(90deg, color-mix(in srgb, var(--ambre) 18%, transparent), var(--fond-carte-haut) 55%); }
+.verdict.rouge  { border-left-color: var(--rouge);  background: linear-gradient(90deg, color-mix(in srgb, var(--rouge) 18%, transparent), var(--fond-carte-haut) 55%); }
 .verdict-texte { flex: 1; }
-.verdict-libelle { margin: 0; font-size: 1.35rem; font-weight: 700; }
+.verdict-libelle { margin: 0; font: 700 1.35rem/1.2 var(--titre); color: var(--encre); }
 .verdict-detail { margin: 6px 0 0; color: var(--texte-doux); }
 .jauge { text-align: center; font-variant-numeric: tabular-nums; }
-.jauge span { font-size: 2.1rem; font-weight: 700; }
+.jauge span { font-size: 2.1rem; font-weight: 700; color: var(--encre); }
 .jauge small { display: block; color: var(--texte-doux); margin-top: -6px; }
 
 /* Listes */
@@ -127,7 +126,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 .liens li { padding: 10px 0; border-bottom: 1px solid var(--bord); }
 .liens li:last-child { border-bottom: none; }
 .liens .adresse { color: var(--texte-doux); word-break: break-all; font-size: 0.9rem; }
-.liens .domaine { font-weight: 700; color: var(--cyan-clair); }
+.liens .domaine { font-weight: 700; color: var(--cyan); }
 
 .signaux li {
   padding: 13px 0 13px 15px;
@@ -138,7 +137,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 .signaux li.eleve    { border-left-color: var(--ambre); }
 .signaux li.moyen    { border-left-color: var(--cyan); }
 .signaux li.info     { border-left-color: var(--vert); }
-.signaux .titre { font-weight: 650; display: block; margin-bottom: 3px; }
+.signaux .titre { font-weight: 650; display: block; margin-bottom: 3px; color: var(--texte); }
 .signaux .explication { color: var(--texte-doux); }
 
 .conseils li { padding: 8px 0 8px 26px; position: relative; }
@@ -169,6 +168,8 @@ ul { list-style: none; margin: 0; padding: 0; }
 .hist .quand { color: var(--texte-doux); font-variant-numeric: tabular-nums; }
 .vide { color: var(--texte-doux); padding: 6px 0; }
 
+[data-kdl-promo] { max-width: 780px; }
+
 footer {
   max-width: 780px;
   margin: 40px auto 0;
@@ -180,4 +181,5 @@ footer {
 @media (max-width: 560px) {
   .verdict { flex-direction: column; align-items: flex-start; gap: 10px; }
   .actions .bouton { flex: 1 1 auto; justify-content: center; }
+  .entete { flex-wrap: wrap; }
 }
