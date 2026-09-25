@@ -68,11 +68,11 @@ Downloads: [GitHub releases](https://github.com/Kdl-Tech/kdl-anti-arnaque/releas
 
 | System | File | Status |
 |---|---|---|
-| Debian / Ubuntu / Linux Mint (64-bit) | `kdl-anti-arnaque_1.1.0_amd64.deb` | tested (Linux Mint 22) |
-| Windows 10 / 11 (64-bit) | `KDL-Anti-arnaque-Setup-1.1.0.exe` | tested (Windows 11, Smart App Control on) |
+| Debian / Ubuntu / Linux Mint (64-bit) | `kdl-anti-arnaque_1.1.1_amd64.deb` | tested (Linux Mint 22) |
+| Windows 10 / 11 (64-bit) | `KDL-Anti-arnaque-Setup-1.1.1.exe` | tested (Windows 11, Smart App Control on) |
 | macOS | from source (`npm install && npm start`) | no 1.1 package |
 
-- **Linux**: `sudo apt install ./kdl-anti-arnaque_1.1.0_amd64.deb`, then *KDL Anti-arnaque*
+- **Linux**: `sudo apt install ./kdl-anti-arnaque_1.1.1_amd64.deb`, then *KDL Anti-arnaque*
   in the menu. Remove: `sudo apt remove kdl-anti-arnaque`.
 - **Windows**: per-user install, no administrator rights; Start menu and Settings → Apps
   entry. The installer is **not code-signed**: Windows may show "Windows protected your

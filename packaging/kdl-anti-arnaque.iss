@@ -5,7 +5,7 @@
 ;                ISCC.exe packaging\kdl-anti-arnaque.iss (Windows)
 
 #ifndef Version
-  #define Version "1.1.0"
+  #define Version "1.1.1"
 #endif
 ; Identifiant fixe : une nouvelle version remplace l'ancienne. Ne jamais le changer.
 #define AppGuid "{9C3F6A2E-51B7-4D0B-8E4A-2F7D1C6B9A35}"

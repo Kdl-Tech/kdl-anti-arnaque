@@ -18,7 +18,7 @@ Adresse : `http://127.0.0.1:4210` (variable `PORT`).
 ## `GET /api/integration/v1/etat`
 
 ```json
-{ "application": "kdl-anti-arnaque", "version": "1.1.0", "contrat": 1 }
+{ "application": "kdl-anti-arnaque", "version": "1.1.1", "contrat": 1 }
 ```
 
 ## `POST /api/integration/v1/analyse`

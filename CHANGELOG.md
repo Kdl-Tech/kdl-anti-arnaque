@@ -1,5 +1,10 @@
 # Journal des versions — KDL Anti-arnaque
 
+## 1.1.1 — 25/09/2026
+
+- Charte graphique Lagon (clair/sombre) appliquée à l'interface.
+- Montée de version des installateurs Linux (.deb) et Windows.
+
 ## 1.1.0 — 21/09/2026
 
 - **Sécurité** : toute requête dont l'en-tête `Host` n'est pas `localhost` / `127.0.0.1`
